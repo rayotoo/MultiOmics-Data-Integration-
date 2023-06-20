@@ -1,0 +1,57 @@
+---
+title: "Omics Data Integration"
+author: "Raymond Otoo"
+date: "6/20/2023"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+To perform data integration analysis with mixOmics using proteomics, DNA methylation, and RNA-seq data, considering two factors (sex and treatment), you can follow these general steps:
+
+Step 1: Prepare your data:
+- Organize your proteomics, DNA methylation, and RNA-seq data in separate tables, with samples as rows and variables (e.g., proteins, methylation sites, gene expression levels) as columns.
+- Ensure that the samples are in the same order across the three datasets, so that they can be correctly matched during the integration process.
+
+Step 2: Install and load mixOmics:
+- Install the mixOmics package in your R environment if you haven't done so already.
+- Load the mixOmics library using the command: `library(mixOmics)`
+
+Step 3: Create the data integration object:
+- Use the `block.splsda` function to create a `BlockSplsda` object, which is suitable for integrating multiple data blocks.
+- Specify the three data blocks (proteomics, DNA methylation, RNA-seq) using the `x` parameter.
+- Set the number of components (latent variables) to be extracted using the `ncomp` parameter.
+- Specify the number of levels for each factor (sex and treatment) using the `keepX` parameter. In your case, set `keepX = list(Sex = 2, Treatment = 2)`.
+
+```R
+# Assuming your data matrices are named proteomicsData, methylationData, and rnaSeqData
+
+# Create the data integration object
+data.int <- block.splsda(X = list(proteomicsData, methylationData, rnaSeqData),
+                         ncomp = 2, keepX = list(Sex = 2, Treatment = 2))
+```
+
+Step 4: Perform the integration analysis:
+- Use the `perf` function to assess the performance and stability of the data integration model. This function performs repeated cross-validation and computes performance metrics.
+- Specify the number of permutations (e.g., `perm = 100`) to assess the significance of the model's performance metrics.
+
+```R
+# Assess performance and stability
+perf(data.int, validation = "Mfold", folds = 10, perm = 100)
+```
+
+Step 5: Visualize the results:
+- Explore the results using different plotting functions provided by mixOmics, such as `plotIndiv` for individual samples and `plotVar` for variable importance analysis.
+
+```R
+# Plot individual samples
+plotIndiv(data.int, comp = c(1, 2), group = c("Sex", "Treatment"))
+
+# Variable importance analysis
+plotVar(data.int, comp = 1)
+```
+
+These steps provide a general guideline for performing data integration analysis using mixOmics. Make sure to adapt the code to match your specific data and analysis requirements. You can further explore the mixOmics documentation and functions for additional analysis options and customization.
