@@ -1,4 +1,13 @@
 # MultiOmics-Data-Integration-
+# Resources
+# Main Tutorial
+```
+https://nbisweden.github.io/workshop_omicsint_ISMBECCB/schedule.html
+```
+# 1. Supervised OMICs Integration
+```
+https://nbisweden.github.io/workshop_omicsint_ISMBECCB/session_ml/SupervisedOMICsIntegration/supervised_omics_integr_CLL.html
+```
 
 This script performs data integration of proteomics, DNA methylation, and RNA-seq data using the mixOmics package in R. The integration analysis considers two factors: sex (males and females) and treatment (sham and IR). It aims to identify shared patterns and relationships across the different omics datasets.
 
